@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: learningsteps-config
+  namespace: learningsteps
+data:
+  APP_PORT: "8000"
