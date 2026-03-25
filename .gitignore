@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# macOS
+.DS_Store
+
+# Local Docker (not part of production setup)
+docker-compose.yml
+
 # C extensions
 *.so
 
@@ -169,3 +175,9 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Terraform
+infra-terraform/.terraform/
+infra-terraform/terraform.tfstate
+infra-terraform/terraform.tfstate.backup
+infra-terraform/*.tfvars
