@@ -1,205 +1,168 @@
-# LearningSteps API
-
-Welcome to LearningSteps! LearningSteps is a Python FastAPI + PostgreSQL application that helps people track their daily learning journey. In this project, you will build, extend, and finally deploy LearningSteps to the cloud!
-
-
-## Table of Contents
-
-- [🚀 Getting Started](#-getting-started)
-- [🎯 Development Tasks (Your Work!)](#-development-tasks-your-work)
-  - [1. API Implementation (Required)](#1-api-implementation-required)
-  - [2. Logging Setup (Required)](#2-logging-setup-required)
-  - [3. Data Model Improvements (Optional)](#3-data-model-improvements-optional)
-  - [4. Cloud CLI Setup (Required for Deployment)](#4-cloud-cli-setup-required-for-deployment)
-- [📊 Data Schema](#-data-schema)
-- [�️ Explore Your Database (Optional)](#️-explore-your-database-optional)
-- [🔧 Troubleshooting](#-troubleshooting)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Git installed on your machine
-- Docker Desktop installed and running
-- VS Code with the Dev Containers extension
-
-### 1. Fork and Clone the Repository
-
-1. **Fork this repository** to your GitHub account by clicking the "Fork" button
-1. **Clone your fork** to your local machine:
-
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/learningsteps.git
-   ```
-
-1. Move into the project directory:
-
-   ```bash
-   cd learningsteps
-   ```
-
-1. **Open in VS Code**:
-
-   ```bash
-   code .
-   ```
-
-### 2. Configure Your Environment (.env)
-
-Environment variables live in a `.env` file (which is **git-ignored** so you don't accidentally commit secrets). This repo ships with a template named `.env-sample`.
-
-1. Copy the sample file to create your real `.env`:
-
-   ```bash
-   cp .env-sample .env
-   ```
-
-### 3. Set Up Your Development Environment
-
-1. **Install the Dev Containers extension** in VS Code (if not already installed)
-2. **Reopen in container**: When VS Code detects the `.devcontainer` folder, click "Reopen in Container"
-   - Or use Command Palette (`Cmd/Ctrl + Shift + P`): `Dev Containers: Reopen in Container`
-3. **Wait for setup**: The API container will automatically install Python, dependencies, and configure your environment.
-   The PostgreSQL Database container will also automatically be created.
-
-### 4. Verify the PostgreSQL Database Is Running
-
-In a terminal outside of VS Code, run:
-
-   ```bash
-      docker ps
-   ```
-
-You should see the postgres service running.
-
-### 5. Run the API
-
-Make sure you are in the root of your project in the terminal (inside VS Code, while container is running):
-
-   ```bash
-     ./start.sh
-   ```
-
-### 6. Test Everything Works! 🎉
-
-1. **Visit the API docs**: http://localhost:8000/docs
-1. **Create your first entry** In the Docs UI Use the POST `/entries` endpoint to create a new journal entry.
-1. **View your entries** using the GET `/entries` endpoint to see what you've created!
-
-**🎯 Once you can create and see entries, you're ready to start implementing the missing endpoints!**
-
-## Your Learning Goals
-
-Complete a learning journal API that allows users to:
-
-- ✅ **Store journal entries** (already implemented)
-- ✅ **Retrieve all journal entries** (already implemented)
-- ❌ **Retrieve single journal entry** (you need to implement)  
-- ❌ **Delete specific journal entries** (you need to implement)
-- ✅ **Update journal entries** (already implemented)
-- ✅ **Delete all entries** (already implemented)
-- ❌ **Setup logging** (you need to implement)
-
-## 🎯 Development Tasks (Your Work!)
-
-You'll use **feature branches** and **Pull Requests (PRs)** for each task. Complete these tasks in your forked repository using feature branches.
-
-### 1. API Implementation (Required)
-
-#### Task 1a: GET Single Entry Endpoint
-
-- Branch: `feature/get-single-entry`
-- [ ] Implement **GET /entries/{entry_id}** in `api/routers/journal_router.py`
-
-#### Task 1b: DELETE Single Entry Endpoint
-
-- Branch: `feature/delete-entry`
-- [ ] Implement **DELETE /entries/{entry_id}** in `api/routers/journal_router.py`
-
-### 2. Logging Setup (Required)
-
-- Branch: `feature/logging-setup`
-- [ ] Configure logging in `api/main.py`
-
-### 3. Data Model Improvements (Optional)
-
-- Branch: `feature/data-model-improvements`  
-- [ ] Add validators to `api/models/entry.py`
-
-### 4. Cloud CLI Setup (Required for Deployment)
-
-- Branch: `feature/cloud-cli-setup`
-- [ ] Uncomment one CLI tool in `.devcontainer/devcontainer.json`
-
-## 📊 Data Schema
-
-Each journal entry follows this structure:
-
-| Field       | Type      | Description                                | Validation                   |
-|-------------|-----------|--------------------------------------------|------------------------------|
-| id          | string    | Unique identifier (UUID)                   | Auto-generated               |
-| work        | string    | What did you work on today?                | Required, max 256 characters |
-| struggle    | string    | What's one thing you struggled with today? | Required, max 256 characters |
-| intention   | string    | What will you study/work on tomorrow?      | Required, max 256 characters |
-| created_at  | datetime  | When entry was created                     | Auto-generated UTC           |
-| updated_at  | datetime  | When entry was last updated                | Auto-updated UTC             |
-
-## 🗄️ Explore Your Database (Optional)
-
-Want to see your data directly in the database? You can connect to PostgreSQL using VS Code's PostgreSQL extension:
-
-### 1. Install PostgreSQL Extension
-
-1. **Install the PostgreSQL extension** in VS Code (search for "PostgreSQL" by Chris Kolkman)
-2. **Restart VS Code** after installation
-
-### 2. Connect to Your Database
-
-1. **Open the PostgreSQL extension** (click the PostgreSQL icon in the sidebar)
-2. **Click "Add Connection"** or the "+" button
-3. **Enter these connection details**:
-   - **Host name**: `postgres`
-   - **User name**: `postgres`
-   - **Password**: `postgres`
-   - **Port**: `5432`
-   - **Conection Type**: `Standard/No SSL`
-   - **Database**: `learning_journal`
-   - **Display name**: `Learning Journal DB` (or any name you prefer)
-
-### 3. Explore Your Data
-
-1. **Expand your connection** in the PostgreSQL panel
-2. **Left-click on "Learning Journal DB" to expand**
-3. **Right-click on "learning_journal"**
-4. **Select "New Query"**
-5. **Type this query** to see all your entries:
-
-   ```sql
-   SELECT * FROM entries;
-   ```
-
-6. **Run the query** to see all your journal data! (Ctrl/Cmd + Enter OR use the PostgreSQL command pallete: Run Query)
-
-You can now explore the database structure, see exactly how your data is stored, and run custom queries to understand PostgreSQL better.
-
-## 🔧 Troubleshooting
-
-**If the API won't start:**
-
-- Make sure the PostgreSQL container is running: `docker ps`
-- Check the container logs: `docker logs your-postgres-container-name`
-- Restart the database: `docker restart your-postgres-container-name`
-
-**If you can't connect to the database:**
-
-- Verify the `.env` file exists and has the correct DATABASE_URL
-- Make sure Docker Desktop is running
-- Try restarting the dev container: `Dev Containers: Rebuild Container`
-
-**If the dev container won't open:**
-
-- Ensure Docker Desktop is running
-- Install the "Dev Containers" extension in VS Code
-- Try: `Dev Containers: Rebuild and Reopen in Container`
+LearningSteps — DevOps Capstone
+A production-grade DevOps pipeline for the LearningSteps FastAPI application. Automated deployment to Azure Kubernetes Service with security scanning, Infrastructure as Code, and full observability.
+Live API: http://9.163.230.128/docs
+
+Pipeline Overview
+git push main
+     │
+     ▼
+GitHub Actions
+     │
+     ├── Build Docker image (linux/amd64)
+     │
+     ├── Trivy scan ──── HIGH/CRITICAL found? ──► PIPELINE FAILS
+     │
+     ├── tfsec scan (Terraform security report)
+     │
+     ├── Push image → Azure Container Registry
+     │
+     └── Deploy → AKS (rolling update, zero downtime)
+                       │
+                       ▼
+              http://9.163.230.128
+
+Technology Stack
+LayerTechnologyApplicationFastAPI (Python 3.13), PostgreSQLContainerizationDocker, Azure Container RegistryInfrastructureTerraform, Azure (AKS, PostgreSQL Flexible Server, VNET)CI/CDGitHub ActionsSecurityTrivy (image scanning), tfsec (IaC scanning)OrchestrationKubernetes (AKS) — namespace isolation, RBAC, health probes
+
+Project Structure
+learningsteps/
+├── api/                        # FastAPI application
+│   ├── main.py                 # App entry point + /health endpoint
+│   ├── requirements.txt        # Python dependencies
+│   ├── models/                 # Data models
+│   ├── repositories/           # Database layer (PostgreSQL/asyncpg)
+│   ├── routers/                # API routes
+│   └── services/               # Business logic
+│
+├── infra-terraform/            # Infrastructure as Code
+│   ├── versions.tf             # Provider versions
+│   ├── variables.tf            # Input variables
+│   ├── main.tf                 # Resource Group + ACR
+│   ├── network.tf              # VNET + subnets
+│   ├── database.tf             # PostgreSQL Flexible Server
+│   ├── aks.tf                  # AKS cluster + AcrPull role
+│   ├── backend.tf              # Remote state (Azure Storage)
+│   └── outputs.tf              # AKS name, ACR server, DB host
+│
+├── k8s/                        # Kubernetes manifests
+│   ├── namespace.yaml          # learningsteps namespace
+│   ├── serviceaccount.yaml     # github-deployer RBAC
+│   ├── configmap.yaml          # Non-sensitive config
+│   ├── secret.yaml             # DATABASE_URL (gitignored)
+│   ├── deployment.yaml         # 2 replicas, rolling update, probes
+│   └── service.yaml            # LoadBalancer → public IP
+│
+├── .github/workflows/
+│   └── pipeline.yml            # Build → Scan → Push → Deploy
+│
+├── Dockerfile                  # Non-root, linux/amd64
+├── .dockerignore
+└── README.md
+
+Quick Start
+Prerequisites
+
+Azure CLI (az login)
+Docker Desktop
+Terraform
+kubectl
+
+1. Provision Infrastructure
+bashcd infra-terraform
+
+# Initialize with remote backend
+terraform init
+
+# Preview changes
+terraform plan -var='db_password=YOUR_PASSWORD'
+
+# Apply
+terraform apply -var='db_password=YOUR_PASSWORD'
+2. Configure GitHub Secrets
+Add these in GitHub → Settings → Secrets → Actions:
+SecretValueAZURE_CLIENT_IDService Principal app IDAZURE_CLIENT_SECRETService Principal passwordAZURE_TENANT_IDAzure tenant IDAZURE_SUBSCRIPTION_IDAzure subscription IDACR_LOGIN_SERVERlearningstepsacr.azurecr.ioDB_PASSWORDPostgreSQL admin password
+3. Deploy to AKS
+bash# Connect to AKS
+az aks get-credentials \
+  --resource-group learningsteps-rg \
+  --name learningsteps-aks
+
+# Apply manifests
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/serviceaccount.yaml
+kubectl apply -f k8s/configmap.yaml -n learningsteps
+kubectl apply -f k8s/secret.yaml -n learningsteps
+kubectl apply -f k8s/deployment.yaml -n learningsteps
+kubectl apply -f k8s/service.yaml -n learningsteps
+
+# Verify
+kubectl get pods -n learningsteps
+kubectl get service learningsteps-service -n learningsteps
+4. Initialize Database
+bashexport PGPASSWORD='YOUR_PASSWORD'
+kubectl run psql-init --rm -it \
+  --image=postgres:15 --restart=Never \
+  --namespace=learningsteps \
+  --env="PGPASSWORD=${PGPASSWORD}" \
+  -- psql "host=learningsteps-db.postgres.database.azure.com dbname=learning_journal user=dbadmin sslmode=require" \
+  -c "CREATE TABLE entries (id VARCHAR(36) PRIMARY KEY, data JSONB NOT NULL, created_at TIMESTAMPTZ DEFAULT NOW(), updated_at TIMESTAMPTZ DEFAULT NOW());"
+5. Trigger Automated Deploy
+bashgit push origin main
+# Watch: https://github.com/orelsv/learningsteps/actions
+
+API Endpoints
+MethodEndpointDescriptionGET/healthHealth check (used by K8s probes)GET/docsSwagger UIGET/entriesGet all journal entriesPOST/entriesCreate a new entryGET/entries/{id}Get single entryPATCH/entries/{id}Update entryDELETE/entries/{id}Delete entry
+Example:
+bashcurl -X POST http://9.163.230.128/entries \
+  -H "Content-Type: application/json" \
+  -d '{
+    "work": "Deployed LearningSteps to AKS",
+    "struggle": "Terraform service CIDR conflict",
+    "intention": "Add monitoring with Prometheus"
+  }'
+
+Infrastructure Recovery
+The entire environment is reproducible from code:
+bashcd infra-terraform
+
+# Destroy everything
+terraform destroy -var='db_password=YOUR_PASSWORD'
+
+# Recreate everything
+terraform apply -var='db_password=YOUR_PASSWORD'
+After recovery, re-run steps 3 and 4 above.
+
+Security
+
+Image scanning: Trivy blocks deployment on HIGH/CRITICAL CVEs
+IaC scanning: tfsec reports Terraform misconfigurations
+Non-root container: App runs as appuser (UID 1000)
+Namespace isolation: Dedicated learningsteps namespace
+RBAC: github-deployer ServiceAccount with minimal permissions
+Private database: PostgreSQL accessible only via VNET, no public access
+Secret management: Credentials in Kubernetes Secrets, never in code
+
+
+Troubleshooting
+Pods not starting (ErrImagePull)
+bash# Check AcrPull permission
+az role assignment create \
+  --assignee $(az aks show -g learningsteps-rg -n learningsteps-aks \
+    --query "identityProfile.kubeletidentity.objectId" -o tsv) \
+  --role AcrPull \
+  --scope $(az acr show --name learningstepsacr --query "id" -o tsv)
+Platform mismatch (Mac M-series)
+bashdocker build --platform linux/amd64 -t learningstepsacr.azurecr.io/learningsteps-api:latest .
+Database connection error
+bashkubectl logs -l app=learningsteps-api -n learningsteps --tail=20
+kubectl describe secret learningsteps-secrets -n learningsteps
+AKS stopped (cost saving)
+bashaz aks start --resource-group learningsteps-rg --name learningsteps-aks
+
+Cleanup
+bash# Delete Kubernetes resources
+kubectl delete namespace learningsteps
+
+# Destroy infrastructure
+cd infra-terraform
+terraform destroy -var='db_password=YOUR_PASSWORD'
